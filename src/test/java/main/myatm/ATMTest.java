@@ -7,9 +7,16 @@ import static org.mockito.Mockito.*;
 
 
 public class ATMTest {
+    @Test
+    public void NegativeValueInATMThrownIllegalArgumentException()  {
+        new ATM(0);
+    }
+
+
     @Test(expected = IllegalArgumentException.class)
-    public void testSetNegativeMoneyInATMThrownIllegalArgumentException()  {
-        new ATM(-5);
+    public void testSetNullIllegalArgumentException()  {
+        new ATM(-21);
+
     }
 
 
@@ -115,7 +122,7 @@ public class ATMTest {
     public void testGetCashThronwNotEnoughMoneyInAccount() throws NoCardInserted, NotEnoughMoneyInATM, NotEnoughMoneyInAccount {
 
         double amount =1001;
-        ATM atm = new ATM(5);
+        ATM atm = new ATM(5000);
 
         Card card = mock(Card.class);
         int pinCode = 1111;
@@ -126,6 +133,24 @@ public class ATMTest {
         when(card.isBlocked()).thenReturn(false);
         when(card.checkPin(pinCode)).thenReturn(true);
        atm.validateCard(card,pinCode);
+        atm.getCash(amount);
+    }
+
+    @Test
+    public void testGetCashNOTThronwNotEnoughMoneyInAccount() throws NoCardInserted, NotEnoughMoneyInATM, NotEnoughMoneyInAccount {
+
+        double amount =1000;
+        ATM atm = new ATM(5000);
+
+        Card card = mock(Card.class);
+        int pinCode = 1111;
+        Account account = mock(Account.class);
+        double actualValue = 1000;
+        when(account.getBalance()).thenReturn(actualValue);
+        when(card.getAccount()).thenReturn(account);
+        when(card.isBlocked()).thenReturn(false);
+        when(card.checkPin(pinCode)).thenReturn(true);
+        atm.validateCard(card,pinCode);
         atm.getCash(amount);
     }
 
@@ -166,14 +191,14 @@ public class ATMTest {
     }
 
     @Test
-    public void testGetCashBalanceBalanceOrderGetBalanceBeforeWithDraw() throws NoCardInserted, NotEnoughMoneyInATM, NotEnoughMoneyInAccount {
+    public void testBalanceBeforeWithDraw() throws NoCardInserted, NotEnoughMoneyInATM, NotEnoughMoneyInAccount {
 
-        double amount =1000;
-        ATM atm = new ATM(10000);
+        double amount =123;
+        ATM atm = new ATM(12345);
         Card card = mock(Card.class);
-        int pinCode = 1111;
+        int pinCode = 1234;
         Account account = mock(Account.class);
-        double actualValue = 10000;
+        double actualValue = 12345;
         when(account.getBalance()).thenReturn(actualValue);
         when(card.getAccount()).thenReturn(account);
         when(card.isBlocked()).thenReturn(false);

@@ -46,6 +46,8 @@ public class ATM {
             throw new NoCardInserted();
         } else {
             Account account = this.card.getAccount();
+           // account.withdrow(amount);
+          //  account.getBalance();
             if(account.getBalance() < amount) {
                 throw new NotEnoughMoneyInAccount();
             } else if(this.getMoneyInATM() < amount) {
